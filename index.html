@@ -36,7 +36,7 @@
         }
 
         .logo-left .logo-img { height: 60px; width: auto; transition: transform 0.3s ease; }
-        .logo-right .logo-img { height: 120px; width: auto; transition: transform 0.3s ease; } /* aumentada */
+        .logo-right .logo-img { height: 120px; width: auto; transition: transform 0.3s ease; }
         .logo-img:hover { transform: scale(1.05); }
 
         /* Hero Section */
@@ -57,7 +57,6 @@
             margin-bottom: 20px; 
             text-transform: uppercase;
             letter-spacing: 5px;
-            /* removido brilho */
             text-shadow: none;
             animation: none;
         }
@@ -81,7 +80,7 @@
 
         /* Countdown Section */
         .countdown-section {
-            background: #1e2749; /* Azul profundo consistente */
+            background: #1e2749;
             padding: 10px 20px 80px;
             text-align: center;
             position: relative;
@@ -203,6 +202,63 @@
             margin: 10px 0;
         }
 
+        /* Toggle BNI */
+        .bni-toggle {
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f5f5f5;
+            color: #1e2749;
+            padding: 6px 10px;
+            border-radius: 10px;
+            border: 1px solid #e6e6e6;
+            font-size: 0.9rem;
+            user-select: none;
+        }
+
+        /* Cupom container (aparece quando BNI marcado) */
+        .cupom-container {
+            display: none;
+            margin-top: 10px;
+            text-align: left;
+            background: #f7f7f7;
+            border: 1px dashed #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .cupom-label {
+            font-size: 0.9rem;
+            color: #1e2749;
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .cupom-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cupom-input {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .cupom-status {
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
+
+        .cupom-status.ok { color: #0f5132; }
+        .cupom-status.err { color: #842029; }
+
         /* CTA Section */
         .cta-section {
             text-align: center; 
@@ -247,6 +303,12 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
         }
 
+        /* Mesmo botão, só que desabilitado (mantém o visual) */
+        .cta-button.disabled {
+            opacity: 0.5;
+            pointer-events: none; /* impede clique */
+        }
+
         /* Footer */
         footer {
             background: #ffffff; 
@@ -273,7 +335,7 @@
         }
 
         .footer-logo { 
-            height: 30px;  /* reduzido */
+            height: 30px;
             width: auto; 
             opacity: 1;
             transition: opacity 0.3s ease, transform 0.3s ease;
@@ -284,32 +346,24 @@
             transform: scale(1.05);
         }
 
+        /* Footer logos: Aéreo maior, Liberdata menor */
+        .footer-logos img[alt="Logo Aéreo"] { height: 44px; }
+        .footer-logos img[alt="Logo Liberdata"] { height: 24px; }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 3rem; letter-spacing: 3px; }
             .hero h2 { font-size: 1.5rem; }
             .hero-description { font-size: 1rem; }
-            
             .countdown-title { font-size: 1.8rem; }
-            
             .countdown { gap: 15px; }
-            
-            .countdown-item { 
-                min-width: 120px; 
-                padding: 20px 30px; 
-            }
-            
+            .countdown-item { min-width: 120px; padding: 20px 30px; }
             .countdown-number { font-size: 2.5rem; }
             .countdown-label { font-size: 0.85rem; }
-            
-            .info-section { 
-                grid-template-columns: 1fr; 
-                padding: 40px 20px;
-            }
-            
+            .info-section { grid-template-columns: 1fr; padding: 40px 20px; }
             .header-content { padding: 0 20px; }
             .logo-left .logo-img { height: 45px; }
-            .logo-right .logo-img { height: 90px; } /* proporcional no mobile */
+            .logo-right .logo-img { height: 90px; }
             .footer-logo { height: 35px; }
         }
     </style>
@@ -364,7 +418,7 @@
         <div class="info-card">
             <div class="info-icon">📅</div>
             <h3>Data</h3>
-            <p><strong>28 de Novembro de 2025</strong><br>Quinta-feira</p>
+            <p><strong>28 de Novembro de 2025</strong><br>Sexta-feira</p>
         </div>
         <div class="info-card">
             <div class="info-icon">🕐</div>
@@ -379,7 +433,21 @@
         <div class="info-card">
             <div class="info-icon">💰</div>
             <h3>Investimento</h3>
-            <span class="price">R$ 99,90</span>
+            <span id="inscricao-preco" class="price">R$ 120,00</span>
+
+            <label class="bni-toggle" title="Valor especial para membros do BNI">
+                <input id="chk-bni" type="checkbox">
+                <span>Sou do BNI (R$ 99,90)</span>
+            </label>
+
+            <!-- Cupom (apenas para BNI) -->
+            <div id="cupom-box" class="cupom-container">
+                <label for="cupom-input" class="cupom-label">Digite seu cupom BNI para habilitar a inscrição:</label>
+                <div class="cupom-row">
+                    <input id="cupom-input" class="cupom-input" type="text" placeholder="CUPOM" autocomplete="off" />
+                </div>
+                <div id="cupom-status" class="cupom-status"></div>
+            </div>
         </div>
     </section>
 
@@ -387,7 +455,11 @@
     <section class="cta-section">
         <h2>Garanta sua vaga agora!</h2>
         <p>Vagas limitadas. Não fique de fora dessa experiência única!</p>
-        <a href="https://www.asaas.com/c/wfuqpori1x7ldb8q" class="cta-button">Inscrever-se Agora</a>
+
+        <!-- ÚNICO BOTÃO (normal e BNI usam o mesmo estilo) -->
+        <a id="inscricao-btn" href="https://www.asaas.com/c/bkxiba2v8zfcuyy5" class="cta-button" target="_blank" rel="noopener">
+            Inscrever-se Agora
+        </a>
     </section>
 
     <!-- Footer -->
@@ -404,6 +476,7 @@
     </footer>
 
     <script>
+        /* Countdown */
         const targetDate = new Date('2025-11-28T08:30:00-03:00').getTime();
 
         function updateCountdown() {
@@ -415,21 +488,87 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById('days').textContent = String(days).padStart(2, '0');
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-
-            if (distance < 0) {
-                document.getElementById('days').textContent = '00';
-                document.getElementById('hours').textContent = '00';
-                document.getElementById('minutes').textContent = '00';
-                document.getElementById('seconds').textContent = '00';
-            }
+            document.getElementById('days').textContent = String(Math.max(0, days)).padStart(2, '0');
+            document.getElementById('hours').textContent = String(Math.max(0, hours)).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(Math.max(0, minutes)).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(Math.max(0, seconds)).padStart(2, '0');
         }
-
         updateCountdown();
         setInterval(updateCountdown, 1000);
+
+        /* Toggle BNI + Cupom + mesmo botão estiloso */
+        (function(){
+            const URL_NORMAL = "https://www.asaas.com/c/bkxiba2v8zfcuyy5"; // R$ 120,00
+            const URL_BNI    = "https://www.asaas.com/c/wfuqpori1x7ldb8q"; // R$ 99,90
+            const CUPOM_VALIDO = "PLANEJA2026";
+
+            const chkBNI   = document.getElementById('chk-bni');
+            const precoEl  = document.getElementById('inscricao-preco');
+            const btnBig   = document.getElementById('inscricao-btn');
+            const cupomBox = document.getElementById('cupom-box');
+            const cupomInp = document.getElementById('cupom-input');
+            const cupomMsg = document.getElementById('cupom-status');
+
+            function setBotao(href, label, habilitado) {
+                btnBig.setAttribute('href', href);
+                btnBig.textContent = label;
+                if (habilitado) {
+                    btnBig.classList.remove('disabled');
+                } else {
+                    btnBig.classList.add('disabled');
+                }
+            }
+
+            function verificarCupom() {
+                const value = (cupomInp.value || '').trim().toUpperCase();
+                if (value === CUPOM_VALIDO) {
+                    cupomMsg.textContent = "Cupom válido! Você pode prosseguir com a inscrição BNI.";
+                    cupomMsg.className = "cupom-status ok";
+                    setBotao(URL_BNI, "Inscrever-se (BNI)", true);
+                } else if (value.length === 0) {
+                    cupomMsg.textContent = "";
+                    cupomMsg.className = "cupom-status";
+                    setBotao("#", "Inscrever-se (BNI)", false);
+                } else {
+                    cupomMsg.textContent = "Cupom inválido. Verifique e tente novamente.";
+                    cupomMsg.className = "cupom-status err";
+                    setBotao("#", "Inscrever-se (BNI)", false);
+                }
+            }
+
+            function aplicarEstado() {
+                if (chkBNI.checked) {
+                    // Preço e UI
+                    precoEl.textContent = "R$ 99,90";
+                    cupomBox.style.display = 'block';
+                    // Mesma aparência do botão grande, mas desabilitado até validar
+                    verificarCupom();
+                } else {
+                    // Volta ao normal
+                    precoEl.textContent = "R$ 120,00";
+                    cupomBox.style.display = 'none';
+                    cupomInp.value = "";
+                    cupomMsg.textContent = "";
+                    cupomMsg.className = "cupom-status";
+                    setBotao(URL_NORMAL, "Inscrever-se Agora", true);
+                }
+            }
+
+            // Impedir navegação se estiver desabilitado
+            btnBig.addEventListener('click', function(e){
+                if (btnBig.classList.contains('disabled')) {
+                    e.preventDefault();
+                }
+            });
+
+            // Eventos
+            chkBNI.addEventListener('change', aplicarEstado);
+            cupomInp.addEventListener('input', verificarCupom);
+
+            // Estado inicial
+            setBotao(URL_NORMAL, "Inscrever-se Agora", true);
+            aplicarEstado();
+        })();
     </script>
 </body>
 </html>
